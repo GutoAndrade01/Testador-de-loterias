@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise da Lotofácil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        #container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 70%;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            margin-left: 240px;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        input[type="date"] {
+            width: 50%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-left: 230px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .importar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        th:hover {
+            background-color: #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul li {
+            margin-bottom: 5px;
+        }
+
+        .char-counter {
+            margin-left: 230px;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .title-testar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .numbers-card {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            /* Distribuir os números igualmente nas linhas */
+            width: 250px;
+            /* Largura total da div, ajuste conforme necessário */
+            margin: 0 auto;
+            /* Centralizar a div horizontalmente */
+            padding: 10px;
+            /* Espaçamento interno */
+        }
+
+
+        .test {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        /* Estilizando os números */
+        .number-checkbox {
+            width: 30px;
+            /* Largura de cada número */
+            height: 30px;
+            /* Altura de cada número */
+            border: 1px solid #ccc;
+            text-align: center;
+            margin: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            /* Tamanho da fonte dos números */
+            background-color: #fff;
+            /* Cor de fundo padrão */
+            color: #333;
+            /* Cor do texto padrão */
+        }
+
+        .number-checkbox.checked {
+            background-color: #007bff;
+            /* Cor de fundo quando selecionado */
+            color: #fff;
+            /* Cor do texto quando selecionado */
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Análise da Lotofácil - Últimos 20 Resultados</h1>
+
+    <div id="container">
+        <!-- Formulário para inserir um novo resultado -->
+        <form id="resultado-form">
+            <label for="novo-resultado">Inserir Novo Resultado (separe os números por espaços):</label>
+            <input type="text" id="novo-resultado" name="novo-resultado" required>
+            <span id="count-novo-resultado">0</span>
+            <label for="data">Data:</label>
+            <input type="date" id="data" name="data" required>
+            <label for="concurso">Concurso:</label>
+            <input type="number" id="concurso" name="concurso" required>
+            <button type="button" onclick="inserirResultado()">Inserir</button>
+        </form>
+
+        <!-- Botão para gerar um novo jogo -->
+        <button type="button" id="newCod" onclick="gerarNovoJogo()">Gerar Novo Jogo</button>
+
+        <!-- Campo para testar um jogo -->
+        <div class="title-testar">
+            <h2>Testar Jogo (selecione até 15 números):</h2>
+        </div>
+
+        <div class="numbers-card" id="testar-jogo">
+            <!-- Checkbox para números -->
+            <!-- Repita este bloco para cada número -->
+            <div class="number-checkbox" data-number="1" onclick="toggleNumber(this, 1)">01</div>
+            <div class="number-checkbox" data-number="2" onclick="toggleNumber(this, 2)">02</div>
+            <div class="number-checkbox" data-number="3" onclick="toggleNumber(this, 3)">03</div>
+            <div class="number-checkbox" data-number="4" onclick="toggleNumber(this, 4)">04</div>
+            <div class="number-checkbox" data-number="5" onclick="toggleNumber(this, 5)">05</div>
+            <div class="number-checkbox" data-number="6" onclick="toggleNumber(this, 6)">06</div>
+            <div class="number-checkbox" data-number="7" onclick="toggleNumber(this, 7)">07</div>
+            <div class="number-checkbox" data-number="8" onclick="toggleNumber(this, 8)">08</div>
+            <div class="number-checkbox" data-number="9" onclick="toggleNumber(this, 9)">09</div>
+            <div class="number-checkbox" data-number="10" onclick="toggleNumber(this, 10)">10</div>
+            <div class="number-checkbox" data-number="11" onclick="toggleNumber(this, 11)">11</div>
+            <div class="number-checkbox" data-number="12" onclick="toggleNumber(this, 12)">12</div>
+            <div class="number-checkbox" data-number="13" onclick="toggleNumber(this, 13)">13</div>
+            <div class="number-checkbox" data-number="14" onclick="toggleNumber(this, 14)">14</div>
+            <div class="number-checkbox" data-number="15" onclick="toggleNumber(this, 15)">15</div>
+            <div class="number-checkbox" data-number="16" onclick="toggleNumber(this, 16)">16</div>
+            <div class="number-checkbox" data-number="17" onclick="toggleNumber(this, 17)">17</div>
+            <div class="number-checkbox" data-number="18" onclick="toggleNumber(this, 18)">18</div>
+            <div class="number-checkbox" data-number="19" onclick="toggleNumber(this, 19)">19</div>
+            <div class="number-checkbox" data-number="20" onclick="toggleNumber(this, 20)">20</div>
+            <div class="number-checkbox" data-number="21" onclick="toggleNumber(this, 21)">21</div>
+            <div class="number-checkbox" data-number="22" onclick="toggleNumber(this, 22)">22</div>
+            <div class="number-checkbox" data-number="23" onclick="toggleNumber(this, 23)">23</div>
+            <div class="number-checkbox" data-number="24" onclick="toggleNumber(this, 24)">24</div>
+            <div class="number-checkbox" data-number="25" onclick="toggleNumber(this, 25)">25</div>
+        </div>
+        <div class="test">
+            <span id="count-testar-jogo">0</span>
+            <button type="button" onclick="testarJogo()">Testar</button>
+        </div>
+
+        <div class="importar"><!-- Botão e input para importar dados de um arquivo .txt -->
+            <input type="file" id="importar-arquivo" accept=".txt">
+            <button type="button" id="imports" onclick="importarDados()">Importar de arquivo .txt</button>
+        </div>
+
+        <h2>10 Números que mais saíram nos últimos 20 jogos:</h2>
+        <ul id="mais-sairam"></ul>
+
+        <h2>10 Números que menos saíram nos últimos 20 jogos:</h2>
+        <ul id="menos-sairam"></ul>
+
+        <h2>Números que se repetem em todos os resultados:</h2>
+        <ul id="numeros-repetidos"></ul>
+
+        <table id="tabela-resultados">
+            <thead>
+                <tr>
+                    <th onclick="ordenarPorColuna(0)">Sorteio</th>
+                    <th onclick="ordenarPorColuna(1)">Data</th>
+                    <th onclick="ordenarPorColuna(2)">Concurso</th>
+                    <th onclick="ordenarPorColuna(3)">Números Sorteados</th>
+                    <th>Editar</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Repita esta estrutura para cada sorteio -->
+            </tbody>
+        </table>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
